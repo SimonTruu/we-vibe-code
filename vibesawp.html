@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oceanic Aquarium Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #001220, #74a9df, #001220);
+            color: #e0f7ff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        body.light-mode {
+            background: linear-gradient(to bottom, #a8d8ff, #0273c9, #a8d8ff);
+            color: #003366;
+        }
+
+        .ocean-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 15%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' fill='%23005c8c'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.25' class='shape-fill'/%3E%3C/svg%3E");
+            background-size: 1200px 100%;
+            animation: wave 15s linear infinite;
+        }
+
+        .wave:nth-child(2) {
+            animation-delay: 0.5s;
+            animation-duration: 12s;
+            opacity: 0.5;
+            background-position-y: 10px;
+        }
+
+        .wave:nth-child(3) {
+            animation-delay: 1s;
+            animation-duration: 10s;
+            opacity: 0.7;
+            background-position-y: 15px;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            animation: float linear infinite;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(-25%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes float {
+            to { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        /* Navigation Styles */
+        nav {
+            background: rgba(0, 30, 60, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .light-mode nav {
+            background: rgba(160, 210, 255, 0.8);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ccff;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+            display: flex;
+            align-items: center;
+        }
+
+        .light-mode .logo {
+            color: #0066cc;
+        }
+
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: #e0f7ff;
+            border: 2px solid #00aaff;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #02486b;
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+        }
+
+        .light-mode .nav-btn {
+            color: #003366;
+            border-color: #0088cc;
+        }
+
+        .light-mode .nav-btn:hover {
+            background: #287ba5;
+            color: #e0f7ff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px rgba(0, 156, 255, 0.7);
+            letter-spacing: 2px;
+        }
+
+        .theme-toggle {
+            background: #005c8c;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 156, 255, 0.5);
+        }
+
+        .theme-toggle:hover {
+            background: #1274a5;
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(0, 156, 255, 0.8);
+        }
+
+        .light-mode .theme-toggle {
+            background: #0088cc;
+            color: #e0f7ff;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .fish-column, .pricing-column {
+            background: rgba(0, 40, 80, 0.7);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .light-mode .fish-column, .light-mode .pricing-column {
+            background: rgba(160, 210, 255, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 100, 200, 0.2);
+        }
+
+        .fish-column:hover, .pricing-column:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(104, 150, 196, 0.4);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #00aaff;
+            text-align: center;
+        }
+
+        .fish-item, .pricing-item {
+            background: rgba(0, 60, 120, 0.5);
+            border-radius: 10px;
+            padding: 1.2rem;
+            margin-bottom: 1.2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            height: 100px;
+        }
+
+        .light-mode .fish-item, .light-mode .pricing-item {
+            background: rgba(180, 220, 255, 0.7);
+        }
+
+        .fish-item:hover, .pricing-item:hover {
+            background: rgba(113, 146, 179, 0.7);
+            transform: scale(1.02);
+        }
+
+        .light-mode .fish-item:hover, .light-mode .pricing-item:hover {
+            background: rgba(57, 143, 214, 0.9);
+        }
+
+        .fish-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            animation: swim 3s infinite ease-in-out;
+        }
+
+        @keyframes swim {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-5px) rotate(5deg); }
+        }
+
+        .fish-info, .pricing-info {
+            flex: 1;
+        }
+
+        .fish-name, .pricing-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .fish-desc, .pricing-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #00ccff;
+            font-size: 1.3rem;
+        }
+
+        .light-mode .price {
+            color: #0066cc;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Fish animations */
+        .swimming-fish {
+            position: absolute;
+            font-size: 2rem;
+            z-index: -1;
+            animation: swim-across linear infinite;
+        }
+
+        @keyframes swim-across {
+            0% { transform: translateX(-100px) scaleX(1); }
+            50% { transform: translateX(calc(50vw - 50px)) scaleX(1); }
+            51% { transform: translateX(calc(50vw - 50px)) scaleX(-1); }
+            100% { transform: translateX(calc(100vw + 100px)) scaleX(-1); }
+        }
+
+        /* Scroll effects */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="ocean-background">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
+    <nav>
+        <div class="logo">
+            <span class="logo-icon">🐠</span>
+            Oceanic Wonders
+        </div>
+        <div class="nav-links">
+            <button class="nav-btn">Home</button>
+            <button class="nav-btn">About Us</button>
+            <button class="nav-btn">Contact</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Oceanic Aquarium Experience</h1>
+            <button class="theme-toggle" id="themeToggle">Switch to Light Mode</button>
+        </header>
+
+        <div class="content">
+            <div class="fish-column">
+                <h2>Marine Life</h2>
+                <div class="fish-item reveal">
+                    <div class="fish-icon">🐠</div>
+                    <div class="fish-info">
+                        <div class="fish-name">Clown</div>
+                        <div class="fish-desc">Bright orange with white stripes, found in coral reefs</div>
+                    </div>
+                </div>
+                <div class="fish-item reveal">
+                    <div class="fish-icon">🐟</div>
+                    <div class="fish-info">
+                        <div class="fish-name">Tang</div>
+                        <div class="fish-desc">Vibrant blue with yellow tail, popular in home aquariums</div>
+                    </div>
+                </div>
+                <div class="fish-item reveal">
+                    <div class="fish-icon">🦈</div>
+                    <div class="fish-info">
+                        <div class="fish-name">Shark</div>
+                        <div class="fish-desc">Distinctive hammer-shaped head, found in warm waters</div>
+                    </div>
+                </div>
+                <div class="fish-item reveal">
+                    <div class="fish-icon">🐡</div>
+                    <div class="fish-info">
+                        <div class="fish-name">fish</div>
+                        <div class="fish-desc">Inflates when threatened, some species are poisonous</div>
+                    </div>
+                </div>
+                <div class="fish-item reveal">
+                    <div class="fish-icon">🐙</div>
+                    <div class="fish-info">
+                        <div class="fish-name">squid</div>
+                        <div class="fish-desc">Highly intelligent, can change color and texture</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pricing-column">
+                <h2>Description</h2>
+                <div class="pricing-item reveal">
+                    <div class="pricing-info">
+                        <div class="pricing-name">Clown Viewing</div>
+                        <div class="pricing-desc">30 minutes with our friendly clownfish</div>
+                    </div>
+                </div>
+                <div class="pricing-item reveal">
+                    <div class="pricing-info">
+                        <div class="pricing-name">Tang Experience</div>
+                        <div class="pricing-desc">45 minutes in the tropical fish exhibit</div>
+                    </div>
+                </div>
+                <div class="pricing-item reveal">
+                    <div class="pricing-info">
+                        <div class="pricing-name">Shark</div>
+                        <div class="pricing-desc">1 hour guided tour of the shark tank</div>
+                    </div>
+                </div>
+                <div class="pricing-item reveal">
+                    <div class="pricing-info">
+                        <div class="pricing-name">fish Presentation</div>
+                        <div class="pricing-desc">Learn about these fascinating creatures</div>
+                    </div>
+                </div>
+                <div class="pricing-item reveal">
+                    <div class="pricing-info">
+                        <div class="pricing-name">squid Interaction</div>
+                        <div class="pricing-desc">Witness the intelligence of squid</div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="pricing-column">
+                <h2>Pricing</h2>
+                <div class="pricing-item reveal">
+                    <div class="price">$12.99</div>
+                </div>
+                <div class="pricing-item reveal">
+                    <div class="price">$16.99</div>
+                </div>
+                <div class="pricing-item reveal">
+                    <div class="price">$24.99</div>
+                </div>
+                <div class="pricing-item reveal">
+                    <div class="price">$14.99</div>
+                </div>
+                <div class="pricing-item reveal">
+                    <div class="price">$19.99</div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <footer class="reveal">
+            <p>© 2023 Oceanic Aquarium Experience | Dive into the wonders of the deep blue sea</p>
+        </footer>
+    </div>
+
+    <audio id="oceanSound" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-waves-ambience-1183.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            if (body.classList.contains('light-mode')) {
+                themeToggle.textContent = 'Switch to Dark Mode';
+            } else {
+                themeToggle.textContent = 'Switch to Light Mode';
+            }
+        });
+
+        // Create bubbles
+        function createBubbles() {
+            const oceanBackground = document.querySelector('.ocean-background');
+            for (let i = 0; i < 20; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                const size = Math.random() * 30 + 10;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.bottom = `${Math.random() * 20}%`;
+                
+                const duration = Math.random() * 15 + 10;
+                bubble.style.animationDuration = `${duration}s`;
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                
+                oceanBackground.appendChild(bubble);
+            }
+        }
+
+        // Create swimming fish
+        function createSwimmingFish() {
+            const fishes = ['🐠', '🐟', '🐡', '🦈', '🐙'];
+            const body = document.body;
+            
+            for (let i = 0; i < 5; i++) {
+                const fish = document.createElement('div');
+                fish.classList.add('swimming-fish');
+                fish.textContent = fishes[Math.floor(Math.random() * fishes.length)];
+                
+                fish.style.top = `${Math.random() * 80 + 10}%`;
+                
+                const duration = Math.random() * 30 + 30;
+                fish.style.animationDuration = `${duration}s`;
+                fish.style.animationDelay = `${Math.random() * 20}s`;
+                
+                const size = Math.random() * 1.5 + 1;
+                fish.style.fontSize = `${size}rem`;
+                
+                body.appendChild(fish);
+            }
+        }
+
+        // Scroll reveal effect
+        function revealElements() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+
+        // Play ocean sound with user interaction
+        const oceanSound = document.getElementById('oceanSound');
+        
+        function playOceanSound() {
+            oceanSound.volume = 0.2;
+            const playPromise = oceanSound.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Audio play failed, waiting for user interaction:", error);
+                    document.addEventListener('click', playOnInteraction);
+                });
+            }
+        }
+        
+        function playOnInteraction() {
+            oceanSound.play().then(() => {
+                console.log("Audio started after user interaction");
+            }).catch(e => {
+                console.log("Audio play failed even after interaction:", e);
+            });
+            document.removeEventListener('click', playOnInteraction);
+        }
+
+        // Initialize everything
+        window.addEventListener('load', function() {
+            createBubbles();
+            createSwimmingFish();
+            revealElements();
+            playOceanSound();
+        });
+
+        window.addEventListener('scroll', revealElements);
+    </script>
+</body>
+</html>
