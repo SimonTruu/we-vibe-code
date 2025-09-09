@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min Företagssida</title>
+    <style>
+        /* Samma CSS som tidigare, med tillägg för tabellen */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #fff;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #555;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #007BFF;
+        }
+        .main-content {
+            flex: 1;
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .main-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .main-content p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            max-width: 800px; 
+            margin-left: auto;
+            margin-right: auto;
+            transition: all 0.3s ease-in-out; /* Mjuk övergång för textändring */
+        }
+        .main-content .cta-button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 40px; /* Lade till marginal för att separera från tabellen */
+        }
+        .main-content .cta-button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* --- NY CSS FÖR TABELLEN --- */
+        table {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto; /* Centrerar tabellen */
+            border-collapse: collapse; /* Tar bort mellanrum mellan celler */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px; /* Luft i cellerna */
+            border: 1px solid #ddd; /* Tunna linjer mellan celler */
+            text-align: left;
+        }
+        thead th {
+            background-color: #007BFF; /* Blå bakgrund för rubrikerna */
+            color: #fff; /* Vit text för rubrikerna */
+            font-weight: bold;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f8f8f8; /* Ljusgrå bakgrund på varannan rad */
+        }
+        tbody tr:hover {
+            background-color: #e2e2e2; /* Mörkare grå när man för musen över en rad */
+        }
+        /* --- SLUT PÅ NY CSS --- */
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">FöretagsLogga</div>
+        <nav>
+            <a href="#">Hem</a>
+            <a href="#">Om oss</a>
+            <a href="#">Kontakt</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <h1>Välkommen till Vårt Företag</h1>
+        <p id="infoText">Här är en plats för din huvudsakliga information. Vi är glada att du är här!</p>
+        <button id="ctaButton" class="cta-button" onclick="toggleText()">Läs mer</button>
+
+        <h2>Våra Senaste Försäljningar</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Produkt</th>
+                    <th>Pris</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Innovativ Lösning A</td>
+                    <td>2500 kr</td>
+                </tr>
+                <tr>
+                    <td>Enastående Servicepaket</td>
+                    <td>1500 kr</td>
+                </tr>
+                <tr>
+                    <td>Expertkonsultation (per timme)</td>
+                    <td>3000 kr</td>
+                </tr>
+                <tr>
+                    <td>Anpassad Mjukvarulicens</td>
+                    <td>1200 kr</td>
+                </tr>
+                <tr>
+                    <td>Hårdvarukomponent X</td>
+                    <td>4800 kr</td>
+                </tr>
+            </tbody>
+        </table>
+        </main>
+
+    <footer>
+        <p>&copy; 2025 FöretagsNamn. Alla rättigheter förbehållna.</p>
+    </footer>
+
+    <script>
+        // Spara den ursprungliga texten och den extra texten i variabler
+        const originalText = "Här är en plats för din huvudsakliga information. Vi är glada att du är här!";
+        const extraText = " Tack för ditt intresse! Vi erbjuder innovativa lösningar och enastående service för att möta dina behov. Vårt team av experter är redo att hjälpa dig att nå dina mål.";
+
+        // En variabel som håller koll på om texten visas eller inte
+        let isTextVisible = false;
+
+        // Funktion för att visa/dölja text
+        function toggleText() {
+            const paragraph = document.getElementById("infoText");
+            const button = document.getElementById("ctaButton");
+
+            // Växla värdet på isTextVisible (om det är true blir det false, och tvärtom)
+            isTextVisible = !isTextVisible;
+
+            if (isTextVisible) {
+                // OM texten ska visas:
+                // 1. Kombinera den gamla och nya texten
+                paragraph.innerHTML = originalText + extraText;
+                // 2. Ändra knappens text till "Göm text"
+                button.innerHTML = "Göm text";
+            } else {
+                // OM texten ska döljas:
+                // 1. Återställ till den ursprungliga texten
+                paragraph.innerHTML = originalText;
+                // 2. Ändra tillbaka knappens text till "Läs mer"
+                button.innerHTML = "Läs mer";
+            }
+        }
+    </script>
+
+</body>
+</html>

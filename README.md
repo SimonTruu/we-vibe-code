@@ -17,3 +17,6 @@ En footer med copyright-text
 3. gör så att man ser ny text när man trycker på knappen
 
 4. jag vill att man ske mer text inte göman den gamla
+
+för vibecode2.html
+ las prompten: du behöver löga till en tabell med minst 2 kolumner och r5 rdaer til hemsidan som visar vad företeget råkade sälja och priset på sakerna
