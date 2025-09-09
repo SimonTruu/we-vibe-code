@@ -19,4 +19,9 @@ En footer med copyright-text
 4. jag vill att man ske mer text inte göman den gamla
 
 för vibecode2.html
- las prompten: du behöver löga till en tabell med minst 2 kolumner och r5 rdaer til hemsidan som visar vad företeget råkade sälja och priset på sakerna
+ prompten: du behöver löga till en tabell med minst 2 kolumner och r5 rdaer til hemsidan som visar vad företeget råkade sälja och priset på sakerna
+
+ frö vibecode3.html
+prompt: vi behöver dark/light mode också
+
+prompt2: det ser ut some shit göt den better anasr börjar jag andvända chatgpt

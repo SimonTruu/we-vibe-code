@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min Företagssida | Modern Design</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- FÖRBÄTTRADE FÄRGVARIABLER --- */
+        :root {
+            --highlight-color: #007BFF;
+            --highlight-hover-color: #0056b3;
+            
+            /* Ljust tema */
+            --bg-primary: #F7F8FC;
+            --bg-secondary: #FFFFFF;
+            --text-primary: #1A202C;
+            --text-secondary: #4A5568;
+            --border-color: #E2E8F0;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-mode {
+            --highlight-color: #38bdf8;
+            --highlight-hover-color: #0ea5e9;
+
+            /* Mörkt tema */
+            --bg-primary: #111827;
+            --bg-secondary: #1F2937;
+            --text-primary: #F3F4F6;
+            --text-secondary: #9CA3AF;
+            --border-color: #374151;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+        }
+        /* --- SLUT PÅ FÄRGVARIABLER --- */
+
+        /* --- Grundläggande sidinställningar --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header och Navigation --- */
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 16px;
+            position: relative;
+            padding: 5px 0;
+        }
+        /* Understrykningseffekt vid hover */
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--highlight-color);
+            transition: width 0.3s ease-out;
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        /* --- NY OCH FÖRBÄTTRAD TEMA-VÄXLARE (SOL/MÅNE) --- */
+        .theme-switcher {
+            background-color: var(--border-color);
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            transition: all 0.3s ease;
+        }
+        .theme-switcher:hover {
+             transform: rotate(15deg);
+        }
+        .theme-switcher svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--text-secondary);
+            transition: fill 0.3s ease;
+        }
+        /* Dölj månen i ljust läge, solen i mörkt läge */
+        .moon-icon { display: none; }
+        .sun-icon { display: block; }
+        body.dark-mode .moon-icon { display: block; }
+        body.dark-mode .sun-icon { display: none; }
+
+
+        /* --- Huvudinnehåll --- */
+        .main-content {
+            flex: 1;
+            padding: 80px 0;
+        }
+        .main-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem); /* Responsiv storlek */
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .main-content h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: var(--text-primary);
+            margin-top: 60px;
+            margin-bottom: 30px;
+        }
+        .main-content p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 750px; 
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        .main-content .cta-button {
+            background-color: var(--highlight-color);
+            color: #fff;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 15px -5px var(--highlight-color);
+        }
+        .main-content .cta-button:hover {
+            background-color: var(--highlight-hover-color);
+            transform: translateY(-2px);
+        }
+
+        /* --- MODERN TABELL-STYLING --- */
+        .table-container {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 25px var(--shadow-color);
+        }
+        th, td {
+            padding: 18px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        thead th {
+            background-color: var(--bg-primary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+        }
+        tbody tr:last-child td {
+             border-bottom: none;
+        }
+        tbody tr {
+             transition: background-color 0.2s;
+        }
+        tbody tr:hover {
+            background-color: var(--bg-primary);
+        }
+        td:last-child {
+            font-weight: 600;
+            color: var(--highlight-color);
+        }
+
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <div class="logo">FöretagsLogga</div>
+            <div class="header-right">
+                <nav>
+                    <a href="#">Hem</a>
+                    <a href="#">Om oss</a>
+                    <a href="#">Kontakt</a>
+                </nav>
+                <button id="theme-toggle" class="theme-switcher" aria-label="Byt färgtema">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.106a.75.75 0 010 1.06l-1.591 1.59a.75.75 0 01-1.06-1.061l1.59-1.591a.75.75 0 011.062 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM17.836 17.894a.75.75 0 011.06 0l1.591 1.591a.75.75 0 11-1.06 1.06l-1.591-1.59a.75.75 0 010-1.061zM12 18.75a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0v-2.25a.75.75 0 01.75-.75zM5.106 17.836a.75.75 0 010-1.06l1.591-1.591a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.062 0zM4.5 12a.75.75 0 01-.75.75H1.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM6.106 5.106a.75.75 0 011.06 0l1.591 1.591a.75.75 0 11-1.06 1.06L6.106 6.166a.75.75 0 010-1.06z"/></svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69a.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-3.833 2.067-7.17 5.168-8.972a.75.75 0 01.818.162z" clip-rule="evenodd"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container table-container">
+            <h1>Välkommen till Vårt Företag</h1>
+            <p id="infoText">Här är en plats för din huvudsakliga information. Vi är glada att du är här!</p>
+            <button id="ctaButton" class="cta-button" onclick="toggleText()">Läs mer</button>
+
+            <h2>Våra Senaste Försäljningar</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produkt</th>
+                        <th>Pris</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Innovativ Lösning A</td>
+                        <td>2500 kr</td>
+                    </tr>
+                    <tr>
+                        <td>Enastående Servicepaket</td>
+                        <td>1500 kr</td>
+                    </tr>
+                    <tr>
+                        <td>Expertkonsultation (per timme)</td>
+                        <td>3000 kr</td>
+                    </tr>
+                    <tr>
+                        <td>Anpassad Mjukvarulicens</td>
+                        <td>1200 kr</td>
+                    </tr>
+                    <tr>
+                        <td>Hårdvarukomponent X</td>
+                        <td>4800 kr</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 FöretagsNamn. Alla rättigheter förbehållna.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Skript för "Läs mer"-knappen ---
+        const originalText = "Här är en plats för din huvudsakliga information. Vi är glada att du är här!";
+        const extraText = " Tack för ditt intresse! Vi erbjuder innovativa lösningar och enastående service för att möta dina behov. Vårt team av experter är redo att hjälpa dig att nå dina mål.";
+        let isTextVisible = false;
+
+        function toggleText() {
+            const paragraph = document.getElementById("infoText");
+            const button = document.getElementById("ctaButton");
+            isTextVisible = !isTextVisible;
+
+            if (isTextVisible) {
+                paragraph.innerHTML = originalText + extraText;
+                button.innerHTML = "Göm text";
+            } else {
+                paragraph.innerHTML = originalText;
+                button.innerHTML = "Läs mer";
+            }
+        }
+
+        // --- Skript för Dark/Light Mode ---
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Funktion för att applicera temat
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                body.classList.add('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+            }
+        }
+
+        // Event listener för knappen
+        themeToggleButton.addEventListener('click', () => {
+            const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        });
+
+        // Kontrollera systempreferens och sparat val när sidan laddas
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else if (prefersDark) {
+                applyTheme('dark');
+            }
+        });
+    </script>
+
+</body>
+</html>
